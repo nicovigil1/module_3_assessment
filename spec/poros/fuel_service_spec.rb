@@ -10,8 +10,6 @@ describe "the fuel helper can" do
         nearby = FuelService.nearby_stations(80203)
         
         expect(nearby["fuel_stations"]).to be_truthy
-
-        # expect(the_unexpected.length).to eq(10)
     end 
 
     it 'can find the 10 nearest stations' do 
@@ -21,5 +19,10 @@ describe "the fuel helper can" do
         expect(nearest.first["access_code"]).to be_truthy
     end 
 
+    it 'can find stations that are either electric or propane' do 
+        stations = FuelService.elec_or_prop
+
+        expect(stations.first["fuel_type"]).to_not eq("test")  
+    end 
     
 end
