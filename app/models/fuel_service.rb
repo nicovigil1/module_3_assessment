@@ -14,10 +14,17 @@ class FuelService
     end
 
     def self.nearest_stations(zip)
-        response = nearby_stations(zip)
-        nearest_stations = response["fuel_stations"]
+        response = elec_or_prop(zip)
+        nearest_stations = response
         nearest_stations.sort_by do |station|
             station["distance"]
         end.reverse.shift(10)
+    end 
+
+    def self.elec_or_prop(zip)
+        all_stations = nearby_stations(zip)["fuel_stations"]
+        filtered = all_stations.find_all do |station|
+            station["fuel_type_code"] == ("ELEC" || "PROP")
+        end
     end 
 end 

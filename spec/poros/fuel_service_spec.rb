@@ -20,9 +20,10 @@ describe "the fuel helper can" do
     end 
 
     it 'can find stations that are either electric or propane' do 
-        stations = FuelService.elec_or_prop
+        filtered_stations = FuelService.elec_or_prop(80203)
 
-        expect(stations.first["fuel_type"]).to_not eq("test")  
+        expect(filtered_stations.first["fuel_type_code"]).to include("ELEC" || "PROP")  
+        expect(filtered_stations.last["fuel_type_code"]).to include("ELEC" || "PROP")  
     end 
     
 end
