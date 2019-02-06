@@ -10,10 +10,14 @@ class FuelService
     def self.nearby_stations(zip)
         #figure out faraday key handling later 
         params = "?api_key=#{ENV["da_key"]}&location=#{zip}"
-        conn.get("/api/alt-fuel-stations/v1/nearest.json#{params}")
+        JSON.parse(conn.get("/api/alt-fuel-stations/v1/nearest.json#{params}").body) 
     end
 
-    def self.nearest_stations(reponse)
-
+    def self.nearest_stations(zip)
+        response = nearby_stations(zip)
+        nearest_stations = response["fuel_stations"]
+        nearest_stations.sort_by do |station|
+            station["distance"]
+        end.reverse.shift(10)
     end 
 end 
